@@ -152,8 +152,4 @@ public class ColorTesting extends JFrame{
 		colorComponent.repaint();
 		add(colorComponent);
 	}
-	private void visualTest()
-	{
-		
-	}
 }
