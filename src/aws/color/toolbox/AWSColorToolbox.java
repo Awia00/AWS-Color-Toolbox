@@ -13,13 +13,6 @@ import java.awt.Color;
  * @author Anders
  */
 public class AWSColorToolbox{
-
-	/**
-	 * 
-	 */
-	private AWSColorToolbox()
-	{
-	}
 	
 	/**
 	 * Darken the given color, by the amtOfDarken.
@@ -234,6 +227,9 @@ public class AWSColorToolbox{
 		
 		return new Color(red,green,blue,alpha);
 	}
+	
+	
+	
 	
 	/**
 	 * @param args the command line arguments
