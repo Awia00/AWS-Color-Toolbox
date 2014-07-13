@@ -11,21 +11,21 @@ Supports the following manipulations
 
 ###Blends
 
--Addition
--Subtraction
--Multiple
+- Addition
+- Subtraction
+- Multiple
 
--Simple Equally
+- Simple Equally
 
--Simple by amount
+- Simple by amount
 
--Difference
+- Difference
 
-*Exclusion
+* Exclusion
 
-*Darken only
+* Darken only
 
-*Lighten only
+* Lighten only
 
 
 ###Misc
