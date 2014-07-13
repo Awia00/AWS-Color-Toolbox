@@ -10,32 +10,19 @@ Supports the following manipulations
 
 
 ###Blends
-
-- Addition
-- Subtraction
-- Multiple
-
-- Simple Equally
-
-- Simple by amount
-
-- Difference
-
+* Addition
+* Subtraction
+* Multiple
+* Simple Equally
+* Simple by amount
+* Difference
 * Exclusion
-
 * Darken only
-
 * Lighten only
 
-
 ###Misc
-
-*Darken by an amount
-
-*Darken by an amount safe
-
-*Lighten by an amount
-
-*Lighten by an amount safe
-
-*Inverse
+* Darken by an amount
+* Darken by an amount safe
+* Lighten by an amount
+* Lighten by an amount safe
+* Inverse
