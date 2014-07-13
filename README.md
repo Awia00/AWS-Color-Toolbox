@@ -11,17 +11,15 @@ Supports the following manipulations
 
 ###Blends
 
-*Addition
+-Addition
+-Subtraction
+-Multiple
 
-*Subtraction
+-Simple Equally
 
-*Multiple
+-Simple by amount
 
-*Simple Equally
-
-*Simple by amount
-
-*Difference
+-Difference
 
 *Exclusion
 
