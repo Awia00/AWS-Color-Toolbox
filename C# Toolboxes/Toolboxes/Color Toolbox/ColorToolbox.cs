@@ -26,6 +26,20 @@ namespace Color_Toolbox
             return Color.FromArgb(alpha, red, green, blue);
         }
 
+        /// <summary>
+        /// Intensifies the color
+        /// </summary>
+        /// <param name="color1"></param>
+        /// <param name="intensity"></param>
+        /// <returns></returns>
+        public static Color ColorIntensify(Color color1, double intensity)
+        {
+            int red = (int)Math.Min(255, color1.R * (intensity));
+            int green = (int)Math.Min(255, color1.G * (intensity));
+            int blue = (int)Math.Min(255, color1.B * (intensity));
+            return Color.FromArgb(red, green, blue);
+        }
+
         /**
          * Darken the given color, by the amtOfDarken. Will darken as much but still
          * keep the color ratio intact. if amtOfDarken = 255, it will return the
@@ -173,10 +187,10 @@ namespace Color_Toolbox
             {
                 throw new Exception();
             }
-            int red = (int)(color1.R * pctBlend + color2.R * (1 - pctBlend));
-            int green = (int)(color1.G * pctBlend + color2.G * (1 - pctBlend));
-            int blue = (int)(color1.B * pctBlend + color2.B * (1 - pctBlend));
-            int alpha = (color1.A + color2.A);
+            int red = (int)(color1.R * pctBlend + color2.R * (1.0 - pctBlend));
+            int green = (int)(color1.G * pctBlend + color2.G * (1.0 - pctBlend));
+            int blue = (int)(color1.B * pctBlend + color2.B * (1.0 - pctBlend));
+            int alpha = (int)(color1.A * pctBlend + color2.A * (1.0 - pctBlend));
 
             return Color.FromArgb(alpha, red, green, blue);  // removed alpha
         }
