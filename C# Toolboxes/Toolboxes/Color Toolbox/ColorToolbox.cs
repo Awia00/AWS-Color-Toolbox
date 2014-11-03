@@ -34,9 +34,9 @@ namespace Color_Toolbox
         /// <returns></returns>
         public static Color ColorIntensify(Color color1, double intensity)
         {
-            int red = (int)Math.Min(255, color1.R * (intensity));
-            int green = (int)Math.Min(255, color1.G * (intensity));
-            int blue = (int)Math.Min(255, color1.B * (intensity));
+            int red = (int)Math.Max(Math.Min(255, color1.R * (intensity)),0);
+            int green = (int)Math.Max(Math.Min(255, color1.G * (intensity)),0);
+            int blue = (int)Math.Max(Math.Min(255, color1.B * (intensity)), 0);
             return Color.FromArgb(red, green, blue);
         }
 
