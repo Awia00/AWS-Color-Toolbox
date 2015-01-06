@@ -12,6 +12,7 @@ namespace HttpClientToolBox.Tests
         static void Main(string[] args)
         {
             _testToolbox = new AwiaHttpClientToolbox("http://driveit.azurewebsites.net/api/");
+            AwiaHttpClientStaticToolBox.Setup("http://driveit.azurewebsites.net/api/");
             GetObjects().Wait();
         }
 
@@ -19,6 +20,8 @@ namespace HttpClientToolBox.Tests
         {
             var temp = await _testToolbox.Read<object>("cars");
             Console.WriteLine(temp);
+            var temp2 = await AwiaHttpClientStaticToolBox.Read<object>("cars");
+            Console.WriteLine(temp2);
         }
     }
 }

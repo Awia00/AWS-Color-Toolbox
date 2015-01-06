@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HttpClientToolBox
 {
-    public static class AwiaHttpClientToolBox
+    public static class AwiaHttpClientStaticToolBox
     {
         static public HttpClient HttpClient { get; set; }
 
