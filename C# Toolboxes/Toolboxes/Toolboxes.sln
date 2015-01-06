@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Color Toolbox", "Color Toolbox\Color Toolbox.csproj", "{C58E43C0-F6C3-4E1E-B03F-7C9C4FFC544B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClientToolBox", "HttpClientToolBox\HttpClientToolBox.csproj", "{6ED301EC-3B7C-44D2-9E1A-49DC4E685C64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{C58E43C0-F6C3-4E1E-B03F-7C9C4FFC544B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C58E43C0-F6C3-4E1E-B03F-7C9C4FFC544B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C58E43C0-F6C3-4E1E-B03F-7C9C4FFC544B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ED301EC-3B7C-44D2-9E1A-49DC4E685C64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ED301EC-3B7C-44D2-9E1A-49DC4E685C64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ED301EC-3B7C-44D2-9E1A-49DC4E685C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ED301EC-3B7C-44D2-9E1A-49DC4E685C64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
