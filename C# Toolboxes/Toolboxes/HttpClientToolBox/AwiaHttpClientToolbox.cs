@@ -10,6 +10,7 @@ namespace HttpClientToolBox
 {
     public class AwiaHttpClientToolbox
     {
+        private static Dictionary<string, AwiaHttpClientToolbox> IdHttpClientMap; 
         public HttpClient HttpClient { get; set; }
 
         public AwiaHttpClientToolbox(string uri, AuthenticationHeaderValue authenticationHeader = null)
@@ -20,6 +21,7 @@ namespace HttpClientToolBox
             {
                 HttpClient.DefaultRequestHeaders.Authorization = authenticationHeader;
             }
+            IdHttpClientMap.Add(uri,this);
         }
 
         public AwiaHttpClientToolbox(Uri uri, AuthenticationHeaderValue authenticationHeader = null)
@@ -29,6 +31,7 @@ namespace HttpClientToolBox
             {
                 HttpClient.DefaultRequestHeaders.Authorization = authenticationHeader;
             }
+            IdHttpClientMap.Add(uri, this);
         }
 
         /// <summary>
