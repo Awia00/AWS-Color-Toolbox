@@ -11,16 +11,20 @@ namespace HttpClientToolBox.Tests
         private static AwiaHttpClientToolbox _testToolbox;
         static void Main(string[] args)
         {
-            _testToolbox = new AwiaHttpClientToolbox("http://driveit.azurewebsites.net/api/");
-            AwiaHttpClientStaticToolBox.Setup("http://driveit.azurewebsites.net/api/");
+            new AwiaHttpClientToolbox("http://jsonplaceholder.typicode.com");
+            new AwiaHttpClientToolbox("http://driveit.azurewebsites.net/api/");
+
             GetObjects().Wait();
         }
 
         static private async Task GetObjects()
         {
+            AwiaHttpClientToolbox.IdHttpClientMap.TryGetValue("http://driveit.azurewebsites.net/api/", out _testToolbox);
             var temp = await _testToolbox.Read<object>("cars");
             Console.WriteLine(temp);
-            var temp2 = await AwiaHttpClientStaticToolBox.Read<object>("cars");
+
+            AwiaHttpClientToolbox.IdHttpClientMap.TryGetValue("http://jsonplaceholder.typicode.com", out _testToolbox);
+            var temp2 = await _testToolbox.Read<object>("posts");
             Console.WriteLine(temp2);
         }
     }

@@ -8,30 +8,41 @@ using System.Threading.Tasks;
 
 namespace HttpClientToolBox
 {
+    /// <summary>
+    /// <para>The class contains a static Dictionary which all instances of the class will be added to. That way one can access different httpClients without having to create them all over again (for example if login is required each time).</para>
+    /// <para>Instantiatte the class with a string / uri which represents the rest api's base address for example http://driveit.azurewebsites.net/api/ </para>
+    /// <para> Then when you make the CRUD calls, add the object and the rest of the uml eg "cars". If you dont know the object type, just use object </para>
+    /// </summary>
     public class AwiaHttpClientToolbox
     {
-        private static Dictionary<string, AwiaHttpClientToolbox> IdHttpClientMap; 
+        public static Dictionary<string, AwiaHttpClientToolbox> IdHttpClientMap; 
         public HttpClient HttpClient { get; set; }
 
         public AwiaHttpClientToolbox(string uri, AuthenticationHeaderValue authenticationHeader = null)
         {
+            if(IdHttpClientMap==null) IdHttpClientMap = new Dictionary<string, AwiaHttpClientToolbox>();
+
             HttpClient = new HttpClient { BaseAddress = new Uri(uri) };
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             if (authenticationHeader != null)
             {
                 HttpClient.DefaultRequestHeaders.Authorization = authenticationHeader;
             }
+
             IdHttpClientMap.Add(uri,this);
         }
 
         public AwiaHttpClientToolbox(Uri uri, AuthenticationHeaderValue authenticationHeader = null)
         {
+            if (IdHttpClientMap == null) IdHttpClientMap = new Dictionary<string, AwiaHttpClientToolbox>();
+
             HttpClient = new HttpClient { BaseAddress = uri };
             if (authenticationHeader != null)
             {
                 HttpClient.DefaultRequestHeaders.Authorization = authenticationHeader;
             }
-            IdHttpClientMap.Add(uri, this);
+
+            IdHttpClientMap.Add(uri.ToString(), this);
         }
 
         /// <summary>
@@ -108,12 +119,12 @@ namespace HttpClientToolBox
                 var response = await HttpClient.GetAsync(uri);
                 response.EnsureSuccessStatusCode();
                 objects = await response.Content.ReadAsAsync<T[]>();
+                return objects.ToList();
             }
             catch (Exception)
             {
                 throw;
             }
-            return objects.ToList();
         }
         /// <summary>
         /// Reads the object of type T at the webAPI on the string BaseAddress + uri. 
