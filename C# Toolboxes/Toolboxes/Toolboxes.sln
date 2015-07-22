@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorToolboxTests", "ColorT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorToolbox", "ColorToolbox\ColorToolbox.csproj", "{C58E43C0-F6C3-4E1E-B03F-7C9C4FFC544B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectRSAEncrypter", "ObjectRSAEncrypter\ObjectRSAEncrypter.csproj", "{035C3B7C-83AA-4A3B-B4EC-C46F7AC20AA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectRSAEncrypter.Tests", "ObjectRSAEncrypter.Tests\ObjectRSAEncrypter.Tests.csproj", "{37B24B33-941F-49AF-A09B-A20FE5CE4338}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{C58E43C0-F6C3-4E1E-B03F-7C9C4FFC544B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C58E43C0-F6C3-4E1E-B03F-7C9C4FFC544B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C58E43C0-F6C3-4E1E-B03F-7C9C4FFC544B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{035C3B7C-83AA-4A3B-B4EC-C46F7AC20AA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{035C3B7C-83AA-4A3B-B4EC-C46F7AC20AA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{035C3B7C-83AA-4A3B-B4EC-C46F7AC20AA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{035C3B7C-83AA-4A3B-B4EC-C46F7AC20AA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37B24B33-941F-49AF-A09B-A20FE5CE4338}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37B24B33-941F-49AF-A09B-A20FE5CE4338}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37B24B33-941F-49AF-A09B-A20FE5CE4338}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37B24B33-941F-49AF-A09B-A20FE5CE4338}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
