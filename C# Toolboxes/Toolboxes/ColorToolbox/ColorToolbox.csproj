@@ -7,8 +7,8 @@
     <ProjectGuid>{C58E43C0-F6C3-4E1E-B03F-7C9C4FFC544B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Color_Toolbox</RootNamespace>
-    <AssemblyName>Color Toolbox</AssemblyName>
+    <RootNamespace>ColorToolbox</RootNamespace>
+    <AssemblyName>ColorToolbox</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

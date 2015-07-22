@@ -1,9 +1,7 @@
-﻿
-
-using System;
+﻿using System;
 using System.Drawing;
 
-namespace Color_Toolbox
+namespace ColorToolbox
 {
     public class ColorToolbox
     {
@@ -18,6 +16,8 @@ namespace Color_Toolbox
          */
         public static Color DarkenByAmt(Color color, int amtOfDarken)
         {
+            if (amtOfDarken < 0) LightenByAmt(color, -amtOfDarken);
+
             int red = Math.Max(color.R - amtOfDarken, 0);
             int green = Math.Max(color.G - amtOfDarken, 0);
             int blue = Math.Max(color.B - amtOfDarken, 0);
@@ -51,6 +51,7 @@ namespace Color_Toolbox
          */
         public static Color DarkenByAmtSafe(Color color, int amtOfDarken)
         {
+            if (amtOfDarken < 0) LightenByAmtSafe(color, -amtOfDarken);
 
             amtOfDarken = Math.Min(amtOfDarken, Math.Min(color.R, Math.Min(color.B, color.G)));
             int red = Math.Max(color.R - amtOfDarken, 0);
@@ -72,6 +73,8 @@ namespace Color_Toolbox
          */
         public static Color LightenByAmt(Color color, int amtOfLighten)
         {
+            if (amtOfLighten < 0) LightenByAmt(color, -amtOfLighten);
+
             int red = Math.Max(color.R + amtOfLighten, 255);
             int green = Math.Max(color.G + amtOfLighten, 255);
             int blue = Math.Max(color.B + amtOfLighten, 255);
@@ -91,6 +94,8 @@ namespace Color_Toolbox
          */
         public static Color LightenByAmtSafe(Color color, int amtOfLighten)
         {
+            if (amtOfLighten < 0) LightenByAmtSafe(color, -amtOfLighten);
+
             amtOfLighten = Math.Min(amtOfLighten, Math.Min(color.R, Math.Min(color.B, color.G)));
             int red = Math.Max(color.R + amtOfLighten, 255);
             int green = Math.Max(color.G + amtOfLighten, 255);
@@ -392,6 +397,22 @@ namespace Color_Toolbox
         private static double Normalize(int RGBValue)
         {
             return RGBValue / 255;
+        }
+
+
+        // 2d Array of colors
+
+        public static Color[,] Contrast(Color[,] colors, double contrast)
+        {
+            return colors;
+        }
+        public static Color[,] Brightness(Color[,] colors, double brightness)
+        {
+            return colors;
+        }
+        public static Color[,] Saturation(Color[,] colors, double saturation)
+        {
+            return colors;
         }
     }
 }
