@@ -75,9 +75,9 @@ namespace ColorToolbox
         {
             if (amtOfLighten < 0) LightenByAmt(color, -amtOfLighten);
 
-            int red = Math.Max(color.R + amtOfLighten, 255);
-            int green = Math.Max(color.G + amtOfLighten, 255);
-            int blue = Math.Max(color.B + amtOfLighten, 255);
+            int red = Math.Min(color.R + amtOfLighten, 255);
+            int green = Math.Min(color.G + amtOfLighten, 255);
+            int blue = Math.Min(color.B + amtOfLighten, 255);
             int alpha = color.A;
 
             return Color.FromArgb(alpha, red, green, blue);
@@ -389,6 +389,16 @@ namespace ColorToolbox
             return Color.FromArgb(alpha, red, green, blue);
         }
 
+        public static Color GammaCorrect(Color color, double gamma)
+        {
+            if (gamma <= 0) return color;
+            double gammaCorrection = 1.0/gamma;
+            int red      = CleanNumber((int)Math.Pow(255 * (color.R / 255), gammaCorrection));
+            int green    = CleanNumber((int)Math.Pow(255 * (color.G / 255), gammaCorrection));
+            int blue     = CleanNumber((int)Math.Pow(255 * (color.B / 255), gammaCorrection));
+            return Color.FromArgb(color.A, red, green, blue);
+        }
+
         /**
          * takes a RGB value (has to be between 0 and 255) and divides it by 255.
          * @param RGBValue
@@ -399,20 +409,143 @@ namespace ColorToolbox
             return RGBValue / 255;
         }
 
+        private static int CleanNumber(int RGBValue)
+        {
+            return Math.Min(255, Math.Max(0, RGBValue));
+        }
+        private static int CleanNumber(double RGBValue)
+        {
+            return (int)Math.Min(255, Math.Max(0, RGBValue));
+        }
+
 
         // 2d Array of colors
 
         public static Color[,] Contrast(Color[,] colors, double contrast)
         {
+            for (int i = 0; i < colors.GetLength(0); i++)
+            {
+                for (int j = 0; j < colors.GetLength(1); j++)
+                {
+                    Color color = colors[i, j];
+
+                    int r = color.R;
+                    int g = color.G;
+                    int b = color.B;
+                    double factor = (259*(contrast + 255))/(255*(259 - contrast));
+
+                    r = CleanNumber(factor * (r - 128) + 128);
+                    g = CleanNumber(factor * (g - 128) + 128);
+                    b = CleanNumber(factor * (b - 128) + 128);
+
+                    colors[i, j] = Color.FromArgb(color.A, r, g, b);
+                }
+            }
+
             return colors;
         }
-        public static Color[,] Brightness(Color[,] colors, double brightness)
+        public static Color[,] Brightness(Color[,] colors, int brightness)
         {
+            for (int i = 0; i < colors.GetLength(0); i++)
+            {
+                for (int j = 0; j < colors.GetLength(1); j++)
+                {
+                    Color color = colors[i, j];
+
+                    colors[i, j] = LightenByAmt(color, brightness);
+                }
+            }
             return colors;
         }
+
+        public static Color[,] Invert(Color[,] colors)
+        {
+            for (int i = 0; i < colors.GetLength(0); i++)
+            {
+                for (int j = 0; j < colors.GetLength(1); j++)
+                {
+                    Color color = colors[i, j];
+
+                    colors[i, j] = Invert(color);
+                }
+            }
+            return colors;
+        }
+        public static Color[,] GammaCorrect(Color[,] colors, double gamma)
+        {
+            if (gamma <= 0) return colors;
+            for (int i = 0; i < colors.GetLength(0); i++)
+            {
+                for (int j = 0; j < colors.GetLength(1); j++)
+                {
+                    Color color = colors[i, j];
+
+                    colors[i, j] = GammaCorrect(color, gamma);
+                }
+            }
+            return colors;
+        }
+
         public static Color[,] Saturation(Color[,] colors, double saturation)
         {
+            for (int i = 0; i < colors.GetLength(0); i++)
+            {
+                for (int j = 0; j < colors.GetLength(1); j++)
+                {
+                    Color color = colors[i, j];
+
+                    int r = color.R;
+                    int g = color.G;
+                    int b = color.B;
+                    double Pr = 0.299;
+                    double Pg = 0.587;
+                    double Pb = 0.114;
+
+                    double P = Math.Sqrt(r*r*Pr+g*g*Pg+b*b*Pb);
+                    r = CleanNumber(P + (r - P) * saturation);
+                    g = CleanNumber(P + (g - P) * saturation);
+                    b = CleanNumber(P + (b - P) * saturation);
+
+                    colors[i, j] = Color.FromArgb(color.A, r, g, b);
+                }
+            }
+
             return colors;
+        }
+
+        public static Color[,] SimpleBlur(Color[,] colors, int radius)
+        {
+            if (radius <= 0) return colors;
+            Color[,] toReturn = new Color[colors.GetLength(0), colors.GetLength(1)];
+
+            for (int x = 0; x < colors.GetLength(0); x++)
+            {
+                for (int y = 0; y < colors.GetLength(1); y++)
+                {
+                    int alphaTotal = 0;
+                    int redTotal = 0;
+                    int greenTotal = 0;
+                    int blueTotal = 0;
+                    for (int ky = -radius; ky <= radius; ++ky)
+                    {
+                        for (int kx = -radius; kx <= radius; ++kx)
+                        {
+                            if (x + kx < 0 || y + ky < 0 || x + kx >= colors.GetLength(0) || y + ky >= colors.GetLength(1)) continue;
+
+                            alphaTotal  += (int)(colors[x + kx, y + ky].A);
+                            redTotal    += (int)(colors[x + kx, y + ky].R);
+                            greenTotal  += (int)(colors[x + kx, y + ky].G);
+                            blueTotal   += (int)(colors[x + kx, y + ky].B);
+                        }
+                    }
+                    toReturn[x, y] = Color.FromArgb(
+                        alphaTotal / ((radius * 2 + 1) * (radius * 2 + 1)),
+                        redTotal / ((radius * 2 + 1) * (radius * 2 + 1)),
+                        greenTotal / ((radius * 2 + 1) * (radius * 2 + 1)),
+                        blueTotal / ((radius * 2 + 1) * (radius * 2 + 1)));
+                }
+            }
+            return toReturn;
         }
     }
 }
