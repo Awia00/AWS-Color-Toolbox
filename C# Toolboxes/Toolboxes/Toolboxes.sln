@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectRSAEncrypter", "Objec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectRSAEncrypter.Tests", "ObjectRSAEncrypter.Tests\ObjectRSAEncrypter.Tests.csproj", "{37B24B33-941F-49AF-A09B-A20FE5CE4338}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorToolboxWPFShowcase", "ColorToolboxWPFShowcase\ColorToolboxWPFShowcase.csproj", "{70DFFFF6-4C93-4485-9468-95D2D2615124}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{37B24B33-941F-49AF-A09B-A20FE5CE4338}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37B24B33-941F-49AF-A09B-A20FE5CE4338}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37B24B33-941F-49AF-A09B-A20FE5CE4338}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70DFFFF6-4C93-4485-9468-95D2D2615124}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70DFFFF6-4C93-4485-9468-95D2D2615124}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70DFFFF6-4C93-4485-9468-95D2D2615124}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70DFFFF6-4C93-4485-9468-95D2D2615124}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,67 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:ColorToolboxWPFShowcase" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="ColorToolboxWPFShowcase.MainWindow"
+        Title="MainWindow" Height="354.192" Width="497.755">
+	<Grid>
+		<Grid.DataContext>
+			<local:MainViewModel/>
+		</Grid.DataContext>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="319*"/>
+			<ColumnDefinition Width="171*"/>
+		</Grid.ColumnDefinitions>
+		<Image Margin="10,10,10,14" Source="{Binding Bitmap}"/>
+		<TextBox Height="23" Margin="10,10,10,0" TextWrapping="Wrap" Text="{Binding ProcessValue}" VerticalAlignment="Top" Width="151" Grid.Column="1"/>
+		<Button Content="Brightness" Grid.Column="1" Margin="10,38,10,0" VerticalAlignment="Top">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="Click">
+					<ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="ApplyBrightness"/>
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+		</Button>
+		<Button Content="Contrast" Grid.Column="1" Margin="10,65,10,0" VerticalAlignment="Top">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="Click">
+					<ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="ApplyContrast"/>
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+		</Button>
+		<Button Content="Saturation" Grid.Column="1" Margin="10,92,10,0" VerticalAlignment="Top">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="Click">
+					<ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="ApplySaturation"/>
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+		</Button>
+		<Button Content="Blur" Grid.Column="1" Margin="10,119,10,0" VerticalAlignment="Top">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="Click">
+					<ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="ApplyBlur"/>
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+		</Button>
+        <Button Content="Reset" Grid.Column="1" Margin="10,0,10,14" VerticalAlignment="Bottom">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="Reset"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Button Content="Gamma" Grid.Column="1" Margin="10,146,10,0" VerticalAlignment="Top">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="ApplyGammaCorrection"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Button Content="Invert" Grid.Column="1" Margin="10,173,10,0" VerticalAlignment="Top">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="ApplyInvert"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+
+    </Grid>
+</Window>
