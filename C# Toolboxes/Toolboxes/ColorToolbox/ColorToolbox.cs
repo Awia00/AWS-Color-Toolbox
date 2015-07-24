@@ -355,6 +355,20 @@ namespace ColorToolbox
             return Color.FromArgb(alpha, red, green, blue);  // removed alpha
         }
 
+        public static Color Contrast(Color color, double contrast)
+        {
+            int r = color.R;
+            int g = color.G;
+            int b = color.B;
+            double factor = (259 * (contrast + 255)) / (255 * (259 - contrast));
+
+            r = CleanNumber(factor * (r - 128) + 128);
+            g = CleanNumber(factor * (g - 128) + 128);
+            b = CleanNumber(factor * (b - 128) + 128);
+
+            return Color.FromArgb(color.A, r, g, b);
+        }
+
         // MISC
         /**
          * Inverts the color
@@ -404,18 +418,18 @@ namespace ColorToolbox
          * @param RGBValue
          * @return 
          */
-        private static double Normalize(int RGBValue)
+        private static double Normalize(int rgbValue)
         {
-            return RGBValue / 255;
+            return (double)rgbValue / 255;
         }
 
-        private static int CleanNumber(int RGBValue)
+        private static int CleanNumber(int rgbValue)
         {
-            return Math.Min(255, Math.Max(0, RGBValue));
+            return Math.Min(255, Math.Max(0, rgbValue));
         }
-        private static int CleanNumber(double RGBValue)
+        private static int CleanNumber(double rgbValue)
         {
-            return (int)Math.Min(255, Math.Max(0, RGBValue));
+            return (int)Math.Min(255, Math.Max(0, rgbValue));
         }
 
 
@@ -427,32 +441,19 @@ namespace ColorToolbox
             {
                 for (int j = 0; j < colors.GetLength(1); j++)
                 {
-                    Color color = colors[i, j];
-
-                    int r = color.R;
-                    int g = color.G;
-                    int b = color.B;
-                    double factor = (259*(contrast + 255))/(255*(259 - contrast));
-
-                    r = CleanNumber(factor * (r - 128) + 128);
-                    g = CleanNumber(factor * (g - 128) + 128);
-                    b = CleanNumber(factor * (b - 128) + 128);
-
-                    colors[i, j] = Color.FromArgb(color.A, r, g, b);
+                    colors[i, j] = Contrast(colors[i, j], contrast);
                 }
             }
-
             return colors;
         }
+        
         public static Color[,] Brightness(Color[,] colors, int brightness)
         {
             for (int i = 0; i < colors.GetLength(0); i++)
             {
                 for (int j = 0; j < colors.GetLength(1); j++)
                 {
-                    Color color = colors[i, j];
-
-                    colors[i, j] = LightenByAmt(color, brightness);
+                    colors[i, j] = LightenByAmt(colors[i, j], brightness);
                 }
             }
             return colors;
@@ -464,9 +465,7 @@ namespace ColorToolbox
             {
                 for (int j = 0; j < colors.GetLength(1); j++)
                 {
-                    Color color = colors[i, j];
-
-                    colors[i, j] = Invert(color);
+                    colors[i, j] = Invert(colors[i, j]);
                 }
             }
             return colors;
@@ -478,9 +477,7 @@ namespace ColorToolbox
             {
                 for (int j = 0; j < colors.GetLength(1); j++)
                 {
-                    Color color = colors[i, j];
-
-                    colors[i, j] = GammaCorrect(color, gamma);
+                    colors[i, j] = GammaCorrect(colors[i, j], gamma);
                 }
             }
             return colors;
@@ -518,6 +515,7 @@ namespace ColorToolbox
             if (radius <= 0) return colors;
             Color[,] toReturn = new Color[colors.GetLength(0), colors.GetLength(1)];
 
+            // go through the array.
             for (int x = 0; x < colors.GetLength(0); x++)
             {
                 for (int y = 0; y < colors.GetLength(1); y++)
@@ -526,16 +524,81 @@ namespace ColorToolbox
                     int redTotal = 0;
                     int greenTotal = 0;
                     int blueTotal = 0;
+                    int rounds = 0;
+                    // go through the nearby indexes including the index (x,y) itself.
                     for (int ky = -radius; ky <= radius; ++ky)
                     {
                         for (int kx = -radius; kx <= radius; ++kx)
                         {
-                            if (x + kx < 0 || y + ky < 0 || x + kx >= colors.GetLength(0) || y + ky >= colors.GetLength(1)) continue;
+                            rounds++;
+                            // if the index is outside the array
+                            if (x + kx < 0 || y + ky < 0 || x + kx >= colors.GetLength(0) ||
+                                y + ky >= colors.GetLength(1))
+                            {
+                                // add the average value per round to the total.
+                                alphaTotal  += alphaTotal/rounds;
+                                redTotal    += redTotal/rounds;
+                                greenTotal  += greenTotal/rounds;
+                                blueTotal   += blueTotal/rounds;
+                            }
+                            else // otherwise add the color in the surrounding indexes.
+                            {
+                                alphaTotal  += (int)(colors[x + kx, y + ky].A);
+                                redTotal    += (int)(colors[x + kx, y + ky].R);
+                                greenTotal  += (int)(colors[x + kx, y + ky].G);
+                                blueTotal   += (int)(colors[x + kx, y + ky].B);
+                            }
+                        }
+                    }
+                    toReturn[x, y] = Color.FromArgb(
+                        alphaTotal  / ((radius * 2 + 1) * (radius * 2 + 1)),
+                        redTotal    / ((radius * 2 + 1) * (radius * 2 + 1)),
+                        greenTotal  / ((radius * 2 + 1) * (radius * 2 + 1)),
+                        blueTotal   / ((radius * 2 + 1) * (radius * 2 + 1)));
+                }
+            }
+            return toReturn;
+        }
 
-                            alphaTotal  += (int)(colors[x + kx, y + ky].A);
-                            redTotal    += (int)(colors[x + kx, y + ky].R);
-                            greenTotal  += (int)(colors[x + kx, y + ky].G);
-                            blueTotal   += (int)(colors[x + kx, y + ky].B);
+        public static Color[,] SimpleBlur(Color[,] colors, int[,] radiuses)
+        {
+            Color[,] toReturn = new Color[colors.GetLength(0), colors.GetLength(1)];
+            // go through the array.
+            for (int x = 0; x < colors.GetLength(0); x++)
+            {
+                for (int y = 0; y < colors.GetLength(1); y++)
+                {
+                    int radius = radiuses[x, y];
+                    if (radius <= 0) toReturn[x, y] = colors[x, y];
+
+                    int alphaTotal = 0;
+                    int redTotal = 0;
+                    int greenTotal = 0;
+                    int blueTotal = 0;
+                    int rounds = 0;
+                    // go through the nearby indexes including the index (x,y) itself.
+                    for (int ky = -radius; ky <= radius; ++ky)
+                    {
+                        for (int kx = -radius; kx <= radius; ++kx)
+                        {
+                            rounds++;
+                            // if the index is outside the array
+                            if (x + kx < 0 || y + ky < 0 || x + kx >= colors.GetLength(0) ||
+                                y + ky >= colors.GetLength(1))
+                            {
+                                // add the average value per round to the total.
+                                alphaTotal += alphaTotal / rounds;
+                                redTotal += redTotal / rounds;
+                                greenTotal += greenTotal / rounds;
+                                blueTotal += blueTotal / rounds;
+                            }
+                            else // otherwise add the color in the surrounding indexes.
+                            {
+                                alphaTotal += (int)(colors[x + kx, y + ky].A);
+                                redTotal += (int)(colors[x + kx, y + ky].R);
+                                greenTotal += (int)(colors[x + kx, y + ky].G);
+                                blueTotal += (int)(colors[x + kx, y + ky].B);
+                            }
                         }
                     }
                     toReturn[x, y] = Color.FromArgb(
